@@ -19,7 +19,7 @@
 	src="${pageContext.request.contextPath }/easyui/locale/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript">
 	$(function(){
-		show_time(2*60);
+		show_time(30*60);
 		$("#submi").click(function(){
 			var b = checkIfselected();
 			if(b==false){
@@ -48,7 +48,7 @@
 		if(s<10){
 			s="0"+s;
 		}
-		var str="0"+min+":"+s;
+		var str= min+":"+s;
 		$("#sp4").text(str);
 		setTimeout("show_time("+remainTime+")",1000);
 	}
@@ -68,15 +68,13 @@
 <div data-options="region:'north'" style="line-height:60px;height:80px;background-image:url('${pageContext.request.contextPath}/image/signinback.jpg');background-size:cover">
 	<font color="white" size="10" face="仿宋" style="font-weight:bold;margin-left:2%">宿州学院 学生在线考试系统</font>
 	<font id="ft1" size="3px" style="margin-left:5%">当 前 考 生：<span id="sp1">${sessionScope.studentName }</span></font>
-	<font id="ft3" size="3px" style="margin-left:2%">考 试 限 时：<span id="sp3">2分钟</span></font>
+	<font id="ft3" size="3px" style="margin-left:2%">考 试 限 时：<span id="sp3">30分钟</span></font>
 	<font id="ft4" size="3px" style="margin-left:2%">剩 余 时 间：<span id="sp4"></span></font>
 </div>
 
 <div data-options="region:'center'">
 	<div style="margin-top:2%;margin-left:2%">
 		<font size="3px" color="red" style="margin-left:20%">正在考试： </font>
-		<br>
-		<br>
 		<br>
 		<center>
 		<font size="6px">${list[0].lessonName }&nbsp;&nbsp;&nbsp;&nbsp;考试卷</font>

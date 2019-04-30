@@ -97,8 +97,8 @@
 				<td><input type="text" name="profesion"></td>
 			</tr>
 			<tr>
-				<td><input id="subm" type="submit" value="注册"></td>
-				<td align="right"><input type="reset" value="重置"></td>
+				<td><input id="subm" type="submit" value="注册" class="easyui-linkbutton" style="padding:5px;background:#fafafa;width:70px;border:1px solid #ccc"></td>
+				<td align="right"><input type="reset" value="重置" class="easyui-linkbutton" style="padding:5px;background:#fafafa;width:70px;border:1px solid #ccc"></td>
 			</tr>
 		</table>
 		<br>

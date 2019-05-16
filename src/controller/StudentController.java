@@ -1,23 +1,21 @@
 package controller;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
 import po.Pagination;
 import po.Student;
 import service.StudentService;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class StudentController {
@@ -58,9 +56,13 @@ public class StudentController {
 	
 	@RequestMapping("/signIn.action")
 	public String signIn(Student student) throws Exception{
-		student.setJointime(new Date());
-		studentService.insertStudent(student);
-		return "redirect:/jsp/login.jsp";
+		if(student.getName().isEmpty()){
+			return "/login";
+		}else {
+			student.setJointime(new Date());
+			studentService.insertStudent(student);
+			return "redirect:/jsp/login.jsp";
+		}
 	}
 	
 	@RequestMapping("/logout.action")

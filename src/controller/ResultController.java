@@ -1,38 +1,32 @@
 package controller;
 
-import java.awt.Font;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.CreationHelper;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.*;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
 import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.servlet.ServletUtilities;
+import org.jfree.chart.title.LegendTitle;
+import org.jfree.chart.title.TextTitle;
 import org.jfree.data.general.DefaultPieDataset;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
-import po.Pagination;
-import po.QueryResult;
-import po.Student;
-import po.Studentresult;
-import po.StudentresultCustom;
+import po.*;
 import service.ResultService;
 import service.StudentService;
+
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.awt.Font;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class ResultController {
@@ -70,7 +64,10 @@ public class ResultController {
 		ModelAndView modelAndView=new ModelAndView();
 		modelAndView.setViewName("/examResultAll");
 		modelAndView.addObject("resultList", list);
-		
+
+
+
+
 		Integer mathTotal = resultService.getTotalByLessonnName("数学", list);
 		Integer chineseTotal = resultService.getTotalByLessonnName("语文", list);
 		Integer englishTotal = resultService.getTotalByLessonnName("英语", list);
@@ -79,15 +76,23 @@ public class ResultController {
 		dataset.setValue("语文",chineseTotal);
 		dataset.setValue("英语",englishTotal);
 		JFreeChart pieChart = ChartFactory.createPieChart("您的擅长学科分析图", dataset, true, true, true);
-		
+		Font titleFont = new Font("宋体", Font.BOLD, 20);
+		TextTitle textTitle = pieChart.getTitle();
+		textTitle.setFont(titleFont);
+
+		Font LegendFont = new Font("宋体", Font.PLAIN, 18);
+		LegendTitle legend = pieChart.getLegend(0);
+		legend.setItemFont(LegendFont);
+
 		PiePlot plot=(PiePlot) pieChart.getPlot();
 		//设置显示数值，并设置字体样式
-		plot.setLabelFont(new Font("微软雅黑", 2, 12));
+		plot.setLabelFont(new Font("宋体", 2, 12));
 		//设置饼状图是圆的（true），还是椭圆（false），默认为true
 		plot.setCircular(true);
 		//设置没有数据的时候显示的内容
 		plot.setNoDataMessage("无数据显示");
-		
+		plot.setLabelGenerator(new StandardPieSectionLabelGenerator("{0} {2}",NumberFormat.getNumberInstance(), new DecimalFormat("0.00%")));
+
 		String filename = ServletUtilities.saveChartAsPNG(pieChart, 700, 500, null, session);
 		modelAndView.addObject("filename", filename);
 		return modelAndView;
